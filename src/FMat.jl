@@ -1,11 +1,5 @@
 struct FMat{N} <: AbstractArray{Int,1}
   data::Vector{<:Integer}
-  # TODO:
-  # list has number of elements,
-  # list has offsets [0, 3, 7]
-  # list has data[0] data[nelems]
-  # flatmat
-  # implement getindex
   function FMat(vals::Vector{Vector{T}}) where {T}
     N = size(vals, 1)
     flattened = reduce(vcat, vals)

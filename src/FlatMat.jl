@@ -1,5 +1,7 @@
 module FlatMat
 
-# Write your package code here.
+include("FMat.jl")
+
+export FMat
 
 end

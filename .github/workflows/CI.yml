@@ -38,5 +38,5 @@ jobs:
       - uses: julia-actions/julia-buildpkg@v1
         with: 
           localregistry: |
-            https://github.com/thomasc791/ElementaRegistry.jl
+            https://github.com/thomasc791/ElementaRegistry.git
       - uses: julia-actions/julia-runtest@v1

@@ -5,12 +5,12 @@ using Aqua
 using JET
 
 @testset "FlatMat.jl" begin
-  # @testset "Code quality (Aqua.jl)" begin
-  #   Aqua.test_all(FlatMat)
-  # end
-  # @testset "Code linting (JET.jl)" begin
-  #   JET.test_package(FlatMat; target_defined_modules=true)
-  # end
+  @testset "Code quality (Aqua.jl)" begin
+    Aqua.test_all(FlatMat)
+  end
+  @testset "Code linting (JET.jl)" begin
+    JET.test_package(FlatMat; target_defined_modules=true)
+  end
 
   re1 = Vector{Vector{Int}}()
   for i in 1:7
@@ -30,7 +30,8 @@ using JET
   end
   fm2 = FMat(re2)
 
-
+  gfm1 = GFMat(re1)
+  gfm2 = GFMat(re2)
 
   function array_is_same(fm, re)
     is_same::Bool = true
@@ -40,17 +41,27 @@ using JET
     return is_same
   end
 
-  @test array_is_same(fm1, re1)
-  @test array_is_same(fm2, re2)
-  @test re1 == fm1
-  @test fm1[2:5] == FMat(re1[2:5])
-  @test fm1[end:end] == FMat(re1[end:end])
-  @test re2 == fm2
-  @test fm2[2:5] == FMat(re2[2:5])
-  @test fm2[end:end] == FMat(re2[end:end])
+  @testset "FMat" begin
+    @test array_is_same(fm1, re1)
+    @test array_is_same(fm2, re2)
+    @test re1 == fm1
+    @test fm1[2:5] == FMat(re1[2:5])
+    @test fm1[end:end] == FMat(re1[end:end])
+    @test re2 == fm2
+    @test fm2[2:5] == FMat(re2[2:5])
+    @test fm2[end:end] == FMat(re2[end:end])
+  end
 
-  # @test FMat([])
-  # @test FMat([[], []])
+  @testset "GFMat" begin
+    @test array_is_same(fm1, gfm1)
+    @test array_is_same(fm2, gfm2)
+    @test gfm1 == fm1
+    @test gfm1[2:5] == GFMat(re1[2:5])
+    @test gfm1[end:end] == GFMat(re1[end:end])
+    @test gfm2 == fm2
+    @test gfm2[2:5] == GFMat(re2[2:5])
+    @test gfm2[end:end] == GFMat(re2[end:end])
+  end
 end
 
 

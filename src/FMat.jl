@@ -1,4 +1,4 @@
-struct FMat{T} <: AbstractArray{Int,1}
+struct FMat{T} <: AbstractVector{Int}
   data::Vector{T}
   len::Int
   FMat{T}(vals::Vector{T}, n=1) where {T<:Integer} = new{T}(vals, n)

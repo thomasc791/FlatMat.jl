@@ -1,19 +1,20 @@
+"""
+    GFMat{T} <: AbstractVector{Int}
+
+A contiguously stored array, that behaves like a `A::Vector{Vector{T}}`, takes up less than half the size. The field `data` stores all elements and has size `sum(length, A)`. The field `indices` stores the index of `last(elements[i])`. GFMat is a generalized version of FMat which can take any `Type{<:Number}`.
+"""
 struct GFMat{T} <: AbstractGFMat{T}
   indices::Vector{Int}
   data::Vector{T}
   GFMat{T}(vals::Vector{T}, indices::Vector{Int}, n=1) where {T<:Number} = new{T}(indices, vals)
 end
 
-function GFMat(vvals::Vector{Vector{T}}) where {T<:Number}
-  N = length(vvals)
-  data = reduce(vcat, vvals)
-  indices = Vector{Int}(undef, N + 1)
-  indices[1] = 1
-  indices[2:N+1] = accumulate(+, size(i, 1) for i in vvals) .+ 1
-  GFMat{T}(data, indices)
-end
+"""
+    GFMat(vvals::Vector{Vector{T}}) where {T<:Number}
 
-function GFMat2(vvals::Vector{Vector{T}}) where {T<:Number}
+Construct a `GFMat` using a vector of vectors of type `T`. Uses the method of [DNF](https://discourse.julialang.org/t/help-with-reducing-allocations-when-indexing-into-custom-array/124732/3?u=thomasc791)
+"""
+function GFMat(vvals::Vector{Vector{T}}) where {T<:Number}
   N = length(vvals)
   M = sum(length, vvals)
   data = Vector{T}(undef, M)
@@ -50,7 +51,7 @@ function Base.getindex(fm::GFMat{T}, u::UnitRange) where {T}
 end
 
 function Base.getindex(fm::GFMat{T}, I) where {T}
-  return GFMat2([fm[i] for i in I])
+  return GFMat([fm[i] for i in I])
 end
 
 Base.setindex!(A::GFMat{T}, ::Int, ::Int) where {T} = A

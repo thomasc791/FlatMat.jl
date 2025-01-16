@@ -10,7 +10,4 @@ for i in 1:7
   end
 end
 fm = FMat(elements)
-fm2 = FMat2(elements)
-
 gfm = GFMat(elements)
-gfm2 = GFMat2(elements)

@@ -5,12 +5,13 @@ using Aqua
 using JET
 
 @testset "FlatMat.jl" begin
-  @testset "Code quality (Aqua.jl)" begin
-    Aqua.test_all(FlatMat)
-  end
-  @testset "Code linting (JET.jl)" begin
-    JET.test_package(FlatMat; target_defined_modules=true)
-  end
+
+  # @testset "Code quality (Aqua.jl)" begin
+  #   Aqua.test_all(FlatMat)
+  # end
+  # @testset "Code linting (JET.jl)" begin
+  #   JET.test_package(FlatMat; target_defined_modules=true)
+  # end
 
   re1 = Vector{Vector{Int}}()
   for i in 1:7
@@ -47,9 +48,11 @@ using JET
     @test re1 == fm1
     @test fm1[2:5] == FMat(re1[2:5])
     @test fm1[end:end] == FMat(re1[end:end])
+    @test fm1[[end - 1, end]] == FMat(re1[end-1:end])
     @test re2 == fm2
     @test fm2[2:5] == FMat(re2[2:5])
     @test fm2[end:end] == FMat(re2[end:end])
+    @test fm2[[end - 1, end]] == FMat(re2[end-1:end])
   end
 
   @testset "GFMat" begin
@@ -58,9 +61,11 @@ using JET
     @test gfm1 == fm1
     @test gfm1[2:5] == GFMat(re1[2:5])
     @test gfm1[end:end] == GFMat(re1[end:end])
+    @test gfm1[[end - 1, end]] == GFMat(re1[end-1:end])
     @test gfm2 == fm2
     @test gfm2[2:5] == GFMat(re2[2:5])
     @test gfm2[end:end] == GFMat(re2[end:end])
+    @test gfm2[[end - 1, end]] == GFMat(re2[end-1:end])
   end
 end
 

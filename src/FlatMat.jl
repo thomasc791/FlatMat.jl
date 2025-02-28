@@ -1,5 +1,7 @@
 module FlatMat
 
+using StaticArrays
+
 abstract type AbstractFMat{T} <: AbstractVector{T} end
 abstract type AbstractGFMat{T} <: AbstractVector{T} end
 

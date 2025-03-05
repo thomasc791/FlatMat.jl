@@ -1,12 +1,12 @@
 """
     FMat{T} <: AbstractVector{Int}
 
-A contiguously stored array, that behaves like a `A::Vector{Vector{T}}`, takes up less than half the size.
+A direct copy of Vector{Vector{T}}, that behaves like a `A::Vector{Vector{T}}`, takes up less than half the size.
 """
 struct FMat{T} <: AbstractVector{T}
-  data::Vector{<:NTuple}
+  data::Vector{Vector{T}}
 
-  FMat{T}(A::Vector{NT}) where {T,NT} = new{T}(A)
+  FMat{T}(A::Vector{Vector{T}}) where {T} = new{T}(A)
 end
 
 """
@@ -15,10 +15,10 @@ end
 Construct a FMat with elements stored contiguously in memory.
 """
 function FMat(elements::Vector{Vector{T}}) where {T}
-  A = Vector{NTuple}(undef, length(elements))
+  A = Vector{Vector{T}}(undef, length(elements))
   @views for i in axes(elements, 1)
     element::Vector{T} = elements[i]
-    A[i] = Tuple(e for e in element)
+    A[i] = [e for e in element]
   end
   FMat{T}(A)
 end
